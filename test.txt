@@ -1,0 +1,21 @@
+def build_wavelet_features_matrix(data_dict):
+    X_wavelet = []
+    
+    for key, signals in data_dict.items():
+        h_sig = signals[0]
+        v_sig = signals[1]
+        
+        # 1. Extract wavelet coefficients for both channels
+        h_wave = extract_wavelet_features(h_sig)
+        v_wave = extract_wavelet_features(v_sig)
+        
+        # 2. Concatenate H and V wavelet features
+        # This will create a long row containing [H_wavelet_coeffs, V_wavelet_coeffs]
+        combined_wavelet = np.concatenate([h_wave, v_wave])
+        
+        X_wavelet.append(combined_wavelet)
+        
+    return np.array(X_wavelet)
+---
+X_train_wavelet = build_wavelet_features_matrix(train_data)
+X_test_wavelet = build_wavelet_features_matrix(test_data)
